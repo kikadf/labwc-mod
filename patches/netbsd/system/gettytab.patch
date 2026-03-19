@@ -1,0 +1,10 @@
+--- etc/gettytab	2024-05-21 13:50:11.604919830 +0200
++++ etc/gettytab.n	2024-05-21 13:48:56.169873901 +0200
+@@ -152,3 +152,7 @@
+ #
+ Auto-baud:\
+ 	:ab:sp#2400:f0#040:
++
++# Autologin
++autologin:\
++	:al=kikadf:tc=Pc:

@@ -1,0 +1,57 @@
+diff --git a/manjaro-zsh-config b/manjaro-zsh-config
+index 5ffe102..fc359d5 100644
+--- a/manjaro-zsh-config
++++ b/manjaro-zsh-config
+@@ -23,8 +23,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
+ HISTFILE=~/.zhistory
+ HISTSIZE=10000
+ SAVEHIST=10000
+-#export EDITOR=/usr/bin/nano
+-#export VISUAL=/usr/bin/nano
++export EDITOR=/usr/local/bin/nano
++export VISUAL=/usr/local/bin/nano
+ WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+ 
+ 
+@@ -36,7 +36,7 @@ if [[ "${terminfo[khome]}" != "" ]]; then
+   bindkey "${terminfo[khome]}" beginning-of-line                # [Home] - Go to beginning of line
+ fi
+ bindkey '^[[8~' end-of-line                                     # End key
+-bindkey '^[[F' end-of-line                                     # End key
++bindkey '^[[F' end-of-line                                      # End key
+ if [[ "${terminfo[kend]}" != "" ]]; then
+   bindkey "${terminfo[kend]}" end-of-line                       # [End] - Go to end of line
+ fi
+@@ -58,8 +58,9 @@ bindkey '^[[Z' undo                                             # Shift+tab undo
+ ## Alias section
+ alias cp="cp -i"                                                # Confirm before overwriting something
+ alias df='df -h'                                                # Human-readable sizes
+-alias free='free -m'                                            # Show sizes in MB
++alias free='top -d1 | head -5 | tail -2'                        # Show sizes in MB
+ alias gitu='git add . && git commit && git push'
++alias ls='ls -G'                                                # Colorized output
+ 
+ # Theming section  
+ autoload -U compinit colors zcalc
+@@ -79,9 +80,9 @@ export LESS=-R
+ 
+ ## Plugins section: Enable fish style features
+ # Use syntax highlighting
+-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
++source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ # Use history substring search
+-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
++source $HOME/.config/zsh.d/zsh-history-substring-search.zsh
+ # bind UP and DOWN arrow keys to history substring search
+ zmodload zsh/terminfo
+ bindkey "$terminfo[kcuu1]" history-substring-search-up
+@@ -294,7 +295,5 @@ function mzc_termsupport_cwd {
+ # will be called the output may be swallowed by the script or function.
+ add-zsh-hook precmd mzc_termsupport_cwd
+ 
+-# File and Dir colors for ls and other outputs
+-export LS_OPTIONS='--color=auto'
+-eval "$(dircolors -b)"
+-alias ls='ls $LS_OPTIONS'
++# No zsh-completions in OpenBSD-ports
++#fpath=($HOME/.config/zsh.d/zsh-completions $fpath)

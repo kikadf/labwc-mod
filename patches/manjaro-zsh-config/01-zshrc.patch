@@ -1,0 +1,23 @@
+diff --git a/.zshrc b/.zshrc
+index 2def0bf..c42afa2 100644
+--- a/.zshrc
++++ b/.zshrc
+@@ -5,10 +5,14 @@ USE_POWERLINE="true"
+ #    is not a diamond
+ HAS_WIDECHARS="false"
+ # Source manjaro-zsh-configuration
+-if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
+-  source /usr/share/zsh/manjaro-zsh-config
++if [[ -e $HOME/.config/zsh.d/manjaro-zsh-config ]]; then
++  source $HOME/.config/zsh.d/manjaro-zsh-config
+ fi
+ # Use manjaro zsh prompt
+-if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
+-  source /usr/share/zsh/manjaro-zsh-prompt
++if [[ -e $HOME/.config/zsh.d/manjaro-zsh-prompt ]]; then
++  source $HOME/.config/zsh.d/manjaro-zsh-prompt
++fi
++# Disable bracketed paste on cons25
++if [[ $TERM == cons25 ]]; then
++  unset zle_bracketed_paste
+ fi

@@ -1,0 +1,12 @@
+diff -Naur manjaro-zsh-config/manjaro-zsh-prompt manjaro-zsh-config-o/manjaro-zsh-prompt
+--- manjaro-zsh-config/manjaro-zsh-prompt	2023-11-26 18:24:54.657395606 +0100
++++ manjaro-zsh-config-o/manjaro-zsh-prompt	2023-11-26 19:10:49.613714572 +0100
+@@ -2,7 +2,7 @@
+   emulate -L zsh
+ 
+   source $HOME/.config/zsh.d/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+-  source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
++  source $HOME/.config/zsh.d/zsh-autosuggestions.zsh
+ 
+   # Determine terminal capabilities.
+   {
