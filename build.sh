@@ -219,7 +219,7 @@ main() {
         msg "Update Labwc-mod:"
     fi
     #TODO
-    build_fluxbox ||  die "Install fluxbox configs"
+    build_labwc ||  die "Install Labwc configs"
     build_rofi ||  die "Install rofi configs"
     build_qttheme ||  die "Install Qt configs"
     build_mzc || die "Building mozilla-zsh-config"
