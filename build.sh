@@ -128,17 +128,12 @@ build_p10k() {
 }
 
 # Edit config file(s), and install them
-#TODO
-build_fluxbox() {
-    msg "Build fluxbox configs..."
-    cd fluxbox || return 1
-    install -d "$HOME/.fluxbox/styles/kikadf/pixmaps" || return 1
-    install -d "$HOME/.fluxbox/backgrounds" || return 1
-    install -d "$HOME/.fluxbox/scripts" || return 1
-    find . -type f -exec install -m644 '{}' "$HOME/.fluxbox/{}" ';'  || return 1
-    sed -i "s|@OSNAME@|$_D_os|" "$HOME/.fluxbox/menu"
-    chmod 755 "$HOME"/.fluxbox/scripts/*
-    msg "...fluxbox configs done."
+build_labwc() {
+    msg "Build Labwc configs..."
+    cd labwc || return 1
+    install -d "$HOME/.config/labwc" || return 1
+    find . -type f -exec install -m644 '{}' "$HOME/.config/labwc/{}" ';'  || return 1
+    msg "...Labwc configs done."
     cd "$_D_basedir" || return 1
     return 0
 }
