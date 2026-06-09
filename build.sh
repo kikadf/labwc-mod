@@ -133,6 +133,12 @@ build_labwc() {
     cd labwc || return 1
     install -d "$HOME/.config/labwc" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.config/labwc/{}" ';'  || return 1
+    cd ../config/sfwbar || return 1
+    install -d "$HOME/.config/sfwbar" || return 1
+    find . -type f -exec install -m644 '{}' "$HOME/.config/sfwbar/{}" ';'  || return 1
+    cd ../scripts || return 1
+    install -d "$HOME/bin" || return 1
+    find . -type f -exec install -m755 '{}' "$HOME/bin/{}" ';'  || return 1
     msg "...Labwc configs done."
     cd "$_D_basedir" || return 1
     return 0
