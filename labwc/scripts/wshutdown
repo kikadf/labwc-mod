@@ -1,0 +1,32 @@
+#!/bin/sh
+
+_dbus_send="dbus-send --system --print-reply \
+            --dest=org.freedesktop.ConsoleKit \
+            /org/freedesktop/ConsoleKit/Manager \
+            org.freedesktop.ConsoleKit.Manager"
+
+if [ "$1" = "-s" ]; then
+        # Suspend
+        ${_dbus_send}.Suspend
+elif [ "$1" = "-h" ]; then
+        # Hibernate
+        ${_dbus_send}.Hibernate
+else
+
+	# Close running applications
+	wlrctl toplevel close
+	sleep 1
+
+	if [ "$1" = "-e" ]; then
+        	# Logout
+        	labwc -e
+	elif [ "$1" = "-r" ]; then
+        	# Reboot
+        	${_dbus_send}.Restart
+	else
+	        # Poweroff
+        	${_dbus_send}.Stop
+	fi
+fi
+
+exit $?

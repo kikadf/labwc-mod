@@ -10,7 +10,7 @@ _D_NetBSD_deps="linux-libertine-ttf zsh zsh-autosuggestions zsh-syntax-highlight
                 zsh-completions breeze-icons rofi nerd-fonts-Meslo cmake gmake \
                 wget binutils perl consolekit keepassxc gnome-keyring \
                 libsecret quasselclient qt5ct qt6ct alacritty swaybg swayidle swaylock \
-                zsh-history-substring-search labwc"
+                zsh-history-substring-search labwc wlrctl"
 
 # Read arguments
 for _arg in "$@"; do
