@@ -85,6 +85,7 @@ build_mzc() {
     git clone https://github.com/Chrysostomus/manjaro-zsh-config || return 1
     cd manjaro-zsh-config || return 1
     patching manjaro-zsh-config || return 1
+    patching p10k || return 1
     install -d "$_D_zsh_confdir" || return 1
     install -m644 .zshrc  "${HOME}/.zshrc" || return 1
     install -m644 manjaro-zsh-config "${_D_zsh_confdir}/manjaro-zsh-config" || return 1
@@ -101,23 +102,66 @@ build_mzc() {
 # https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=zsh-theme-powerlevel10k-git
 build_p10k() {
     msg "Build powerlevel10k theme..."
+    _libgit2ver="tag-2ecf33948a4df9ef45a66c68b8ef24a5e60eaac6"
+    _commit="9253fb1c5034410c43a0c681ff8294181c54016c"
     cd external || return 1
+    srcdir=$(pwd)
+
+    # Build libgit2
+    curl -L https://github.com/romkatv/libgit2/archive/${_libgit2ver}.tar.gz \
+         -o libgit2.tar.gz || return 1
+    tar -xvzf libgit2.tar.gz || return 1
+    cd "libgit2-${_libgit2ver}"
+    cmake -W no-dev \
+         -D CMAKE_BUILD_TYPE='None' \
+         -D ZERO_NSEC='ON' \
+         -D THREADSAFE='ON' \
+         -D USE_BUNDLED_ZLIB='OFF' \
+         -D REGEX_BACKEND='builtin' \
+         -D USE_HTTP_PARSER='builtin' \
+         -D USE_SSH='OFF' \
+         -D USE_HTTPS='OFF' \
+         -D BUILD_CLAR='OFF' \
+         -D USE_GSSAPI='OFF' \
+         -D USE_NTLMCLIENT='OFF' \
+         -D BUILD_SHARED_LIBS='OFF' \
+         -D ENABLE_REPRODUCIBLE_BUILDS='ON' .
+    gmake
+
+    # Build pl10k
+    cd ..
     git clone https://github.com/romkatv/powerlevel10k || return 1
-    cd powerlevel10k/gitstatus || return 1
-    sed -i'' '/gitstatus_cxx=clang++12/d' build  || return 1
-    ./build -w  || return 1
+    cd powerlevel10k
+    git checkout ${_commit}
+    cd gitstatus || return 1
+    #sed -i'' '/gitstatus_cxx=clang++12/d' build  || return 1
+    export CXXFLAGS=" -I${srcdir}/libgit2-${_libgit2ver}/include -DGITSTATUS_ZERO_NSEC -D_GNU_SOURCE"
+    export LDFLAGS=" -L${srcdir}/libgit2-${_libgit2ver} -L/usr/lib -L/usr/pkg/lib -lz"
+    gmake
+    #./build -w  || return 1
     # go to ./build/powerlevel10k
     cd ..
     rm -rf  .git
+    rm .gitignore
+    rm .gitattributes
+    rm Makefile
+    rm gitstatus/build
+    rm gitstatus/mbuild
+    rm gitstatus/Makefile
+    rm gitstatus/.clang-format
+    rm gitstatus/.gitignore
+    rm gitstatus/.gitattributes
+    rm gitstatus/usrbin/.gitkeep
     rm -rf gitstatus/src  || return 1
     rm -rf gitstatus/deps  || return 1
+    rm -rf gitstatus/obj  || return 1
     rm -rf gitstatus/.vscode  || return 1
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/config"  || return 1
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/internal"  || return 1
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/usrbin"  || return 1
     install -d "${_D_zsh_confdir}/zsh-theme-powerlevel10k/gitstatus/docs"  || return 1
     find . -type f -exec install '{}' "${_D_zsh_confdir}/zsh-theme-powerlevel10k/{}" ';'  || return 1
-    make -C "${_D_zsh_confdir}/zsh-theme-powerlevel10k" minify  || return 1
+ #   gmake -C "${_D_zsh_confdir}/zsh-theme-powerlevel10k" minify  || return 1
     cd "${_D_zsh_confdir}/zsh-theme-powerlevel10k" || return 1
     for file in *.zsh-theme internal/*.zsh gitstatus/*.zsh gitstatus/install; do
         zsh -fc "emulate zsh -o no_aliases && zcompile -R -- $file.zwc $file"  || return 1
@@ -136,7 +180,10 @@ build_labwc() {
     cd ../config/sfwbar || return 1
     install -d "$HOME/.config/sfwbar" || return 1
     find . -type f -exec install -m644 '{}' "$HOME/.config/sfwbar/{}" ';'  || return 1
-    cd ../scripts || return 1
+    cd ../waybar || return 1
+    install -d "$HOME/.config/waybar" || return 1
+    find . -type f -exec install -m644 '{}' "$HOME/.config/waybar/{}" ';'  || return 1
+    cd ../../scripts || return 1
     install -d "$HOME/bin" || return 1
     find . -type f -exec install -m755 '{}' "$HOME/bin/{}" ';'  || return 1
     msg "...Labwc configs done."
