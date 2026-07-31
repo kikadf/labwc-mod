@@ -83,6 +83,11 @@ export LESS=-R
 source /usr/pkg/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Use history substring search
 source /usr/pkg/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Use autosuggestions
+source /usr/pkg/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+# Use starship theme
+source $HOME/.config/zsh.d/starship.plugin.zsh
 # bind UP and DOWN arrow keys to history substring search
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -295,5 +300,7 @@ function mzc_termsupport_cwd {
 # will be called the output may be swallowed by the script or function.
 add-zsh-hook precmd mzc_termsupport_cwd
 
-# No zsh-completions in OpenBSD-ports
-#fpath=($HOME/.config/zsh.d/zsh-completions $fpath)
+# Disable bracketed paste on cons25
+if [[ $TERM == cons25 ]]; then
+  unset zle_bracketed_paste
+fi

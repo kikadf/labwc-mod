@@ -189,7 +189,6 @@ main() {
     build_rofi ||  die "Install rofi configs"
     build_qttheme ||  die "Install Qt configs"
     build_zsh || die "Install zsh config"
-#    build_p10k || die "Building powerlevel10k theme"
     if [ $_D_debug -eq 0 ]; then
         cleaning || die "Cleaning"
         msg "Ready."
