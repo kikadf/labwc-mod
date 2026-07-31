@@ -1,0 +1,9 @@
+source $HOME/.config/zsh.d/zsh-config
+source $HOME/.config/zsh.d/starship.plugin.zsh
+source /usr/pkg/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+
+# Disable bracketed paste on cons25
+if [[ $TERM == cons25 ]]; then
+  unset zle_bracketed_paste
+fi
