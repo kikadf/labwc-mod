@@ -76,9 +76,10 @@ install_deps() {
 
 build_zsh() {
     msg "Build zsh config..."
+    install -d "$_D_zsh_confdir" || return 1
     install -m644 config/zsh/starship.plugin.zsh "${_D_zsh_confdir}/starship.plugin.zsh" || return 1
     install -m644 config/zsh/starship.toml "${HOME}/.config/starship.toml" || return 1
-    install -m644 config/zsh/zsh-config "${_D_zsh_confdir}/manjaro-zsh-config" || return 1
+    install -m644 config/zsh/zsh-config "${_D_zsh_confdir}/zsh-config" || return 1
     install -m644 config/zsh/zshrc  "${HOME}/.zshrc" || return 1
     msg "...zsh config done."
     return 0
