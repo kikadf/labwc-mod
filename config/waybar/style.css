@@ -65,7 +65,7 @@ button:hover {
 
 #workspaces button.focused, #workspaces button.active {
     background-color: #64727D;
-    box-shadow: inset 0 -3px #ffffff;
+    box-shadow: inset 0 -3px #fcb10f;
 }
 
 #workspaces button.urgent {
@@ -336,7 +336,7 @@ label:focus {
 
 #taskbar button.active {
     background-color: #435c70;
-    border-bottom: 3px solid #fcb10f;
+    box-shadow: inset 0 -3px #fcb10f;
 }
 
 #custom-power {
